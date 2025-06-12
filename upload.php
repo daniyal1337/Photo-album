@@ -1,21 +1,23 @@
- <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'images/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+<?php
+$uploadDir = "uploads/";
+$uploadedFiles = [];
 
-        $filename = basename($_FILES['image']['name']);
-        $targetFile = $uploadDir . $filename;
-
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            echo "Upload successful!";
-        } else {
-            echo "Upload failed!";
-        }
-    } else {
-        echo "No file uploaded or upload error!";
-    }
+if (!file_exists($uploadDir)) {
+  mkdir($uploadDir);
 }
+
+if (!empty($_FILES["images"])) {
+  foreach ($_FILES["images"]["tmp_name"] as $key => $tmpName) {
+    $fileName = basename($_FILES["images"]["name"][$key]);
+    $targetFile = $uploadDir . $fileName;
+    if (move_uploaded_file($tmpName, $targetFile)) {
+      $uploadedFiles[] = $fileName;
+    }
+  }
+}
+
+$fileList = array_diff(scandir($uploadDir), ["..", "."]);
+file_put_contents("images.json", json_encode(array_values($fileList)));
+
+echo "Upload successful!";
 ?>

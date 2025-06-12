@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Album Book</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📖 Photo Album Book</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="images[]" multiple accept="image/*" />
+      <button type="submit">Upload</button>
+    </form>
+    <div id="uploadStatus"></div>
+
+    <div id="book" class="book">
+      <div class="page left" id="leftPage"></div>
+      <div class="page right" id="rightPage"></div>
+    </div>
+
+    <div class="pagination">
+      <button onclick="prevPage()">&laquo; Prev</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()">Next &raquo;</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
